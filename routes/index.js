@@ -29,6 +29,13 @@ router.get('/add-person', function(req,res){
 
 })
 
+router.get('/directory', function(req,res){
+
+  res.render('directory.html')
+
+})
+
+
 router.post('/api/create', function(req,res){
 
   console.log('!!!!!GOT HERE!!!!!!')
@@ -62,11 +69,31 @@ router.post('/api/create', function(req,res){
 
   })
 
-
-
-
 })
 
+
+router.get('/api/get', function(req,res){
+
+  Person.find(function(err,data){
+
+      if(err){
+        var error = {
+          status: "ERROR",
+          message: err
+        }
+        return res.json(err)
+      }
+
+      var jsonData = {
+        status: "OK",
+        people: data
+      }
+
+      return res.json(jsonData);
+
+  })
+
+})
 
 
 
