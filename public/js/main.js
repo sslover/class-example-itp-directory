@@ -15,7 +15,7 @@ function renderPeeps(){
 
 			for(var i=0;i<people.length;i++){
 				var htmlToAdd = '<div class="col-md-4">'+
-					'<img src='+people[i].imageUrl+' width="50">'+
+					'<img src='+people[i].imageUrl+' width="100">'+
 					'<h1>'+people[i].name+'</h1>'+
 				'</div>';
 			
