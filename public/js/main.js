@@ -17,6 +17,11 @@ function renderPeeps(){
 				var htmlToAdd = '<div class="col-md-4">'+
 					'<img src='+people[i].imageUrl+' width="100">'+
 					'<h1>'+people[i].name+'</h1>'+
+					'<ul>'+
+						'<li>Year: '+people[i].itpYear+'</li>'+
+						'<li>Interests: '+people[i].interests+'</li>'+
+					'</ul>'+
+					'<a href="/edit/'+people[i]._id+'">Edit Person</a>'+
 				'</div>';
 			
 				jQuery("#people-holder").append(htmlToAdd);
@@ -27,6 +32,5 @@ function renderPeeps(){
 		}
 	})	
 }
-
 
 window.addEventListener('load', init())

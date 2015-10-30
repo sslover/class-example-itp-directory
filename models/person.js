@@ -9,6 +9,8 @@ var personSchema = new Schema({
 	interests: [String],
 	link: String,
 	imageUrl: String,
+	slug : { type: String, lowercase: true, required: true, unique: true },
+	hasGlasses: Boolean,
 	dateAdded : { type: Date, default: Date.now }
 })
 

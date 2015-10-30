@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hello World</title>
+    <title>{{pageTitle}}</title>
 
     <!-- Custom Font - Change 'Muli' to the font you want -->
     <link href='https://fonts.googleapis.com/css?family=Muli' rel='stylesheet' type='text/css'>
@@ -29,31 +29,29 @@
   <div class="container">
     <div class="row">
       <div class="col-md-8">
-        <h1>Let's add an ITP Person</h1>
-        <form method="post" action="/api/create" id="myForm">
+        <h1>Let's edit an ITP Person</h1>
+        <form method="post" action="/api/edit/{{person._id}}">
           <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" placeholder="Name" name="name" required>
+            <input type="text" class="form-control" id="name" placeholder="Name" name="name" value="{{person.name}}" required>
           </div>
           <div class="form-group">
             <label for="itpYear">ITP Year</label>
-            <input type="text" class="form-control" id="itpYear" placeholder="Year" name="itpYear" required>
+            <input type="text" class="form-control" id="itpYear" placeholder="Year" name="itpYear" value="{{person.itpYear}}" required>
           </div>
           <div class="form-group">
             <label for="interests">Interests</label>
-            <input type="text" class="form-control" id="interests" name="interests" required>
+            <input type="text" class="form-control" id="interests" name="interests" value="{{person.interests}}" required>
             <p class="help-block">Enter interests separated by comma</p>
           </div>
           <div class="form-group">
             <label for="link">Link</label>
-            <input type="text" class="form-control" id="link" placeholder="Link" name="link" required>
+            <input type="text" class="form-control" id="link" placeholder="Link" name="link" value="{{person.link}}" required>
           </div>  
           <div class="form-group">
             <label for="imageUrl">ImageURL</label>
-            <input type="text" class="form-control" id="imageUrl" placeholder="imageUrl" name="imageUrl" required>
-          </div>
-            <input type="radio" name="hasGlasses" value="yes">Yes<br>
-            <input type="radio" name="hasGlasses" value="no">No                           
+            <input type="text" class="form-control" id="imageUrl" placeholder="imageUrl" name="imageUrl" value="{{person.imageUrl}}"required>
+          </div>                    
           <button type="submit" class="btn btn-default">Submit</button>
         </form> 
       </div>
@@ -65,11 +63,14 @@
     <!-- JQuery script -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
 
+    <!-- CUSTOM JS -->
+    <script src="js/main.js"></script>
+
     <!-- JQuery validate -->
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"></script>
-
+    
     <script type="text/javascript">
-      $("#myForm").validate({
+      $("form").validate({
           rules: {
             // compound rule
             itpYear: {
@@ -84,5 +85,6 @@
 
       });
     </script>
+
 
 </html>

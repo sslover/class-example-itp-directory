@@ -14,13 +14,22 @@ var Course = require("../models/course.js");
  */
 router.get('/', function(req, res) {
 
+  console.log('home page requested!');
+
   var jsonData = {
   	'name': 'itp-directory',
   	'api-status':'OK'
   }
 
   // respond with json data
-  res.json(jsonData)
+  //res.json(jsonData)
+
+  // respond by redirecting
+  //res.redirect('/directory')
+
+  // respond with html
+  res.render('directory.html')
+
 });
 
 router.get('/add-person', function(req,res){
@@ -36,9 +45,71 @@ router.get('/directory', function(req,res){
 })
 
 
+router.get('/edit/:id', function(req,res){
+
+  var requestedId = req.params.id;
+
+  Person.findById(requestedId,function(err,data){
+    if(err){
+      var error = {
+        status: "ERROR",
+        message: err
+      }
+      return res.json(err)
+    }
+
+    console.log(data); 
+
+    var viewData = {
+      pageTitle: "Edit " + data.name,
+      person: data
+    }
+
+    res.render('edit.html',viewData);
+
+  })
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+router.get('/edit/:id', function(req,res){
+
+  var requestedId = req.params.id;
+
+  Person.findById(requestedId,function(err,data){
+    if(err){
+      var error = {
+        status: "ERROR",
+        message: err
+      }
+      return res.json(err)
+    }
+
+    var viewData = {
+      status: "OK",
+      person: data
+    }
+
+    return res.render('edit.html',viewData);
+  })
+
+})
+
+
 router.post('/api/create', function(req,res){
 
-  console.log('!!!!!GOT HERE!!!!!!')
   console.log(req.body);
 
   var personObj = {
@@ -46,8 +117,12 @@ router.post('/api/create', function(req,res){
     itpYear: req.body.itpYear,
     interests: req.body.interests.split(','),
     link: req.body.link,
-    imageUrl: req.body.imageUrl  
+    imageUrl: req.body.imageUrl,
+    slug : req.body.name.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-')
   }
+
+  if (req.body.hasGlasses == 'yes') personObj['hasGlasses'] = true;
+  else personObj['hasGlasses'] = false;
 
   var person = new Person(personObj);
 
@@ -71,6 +146,43 @@ router.post('/api/create', function(req,res){
 
 })
 
+router.post('/api/edit/:id', function(req,res){
+
+  console.log(req.body);
+  var requestedId = req.params.id;
+
+  var personObj = {
+    name: req.body.name,
+    itpYear: req.body.itpYear,
+    interests: req.body.interests.split(','),
+    link: req.body.link,
+    imageUrl: req.body.imageUrl,
+    slug : req.body.name.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'_')
+  }
+
+  console.log(personObj);
+
+  Person.findByIdAndUpdate(requestedId,personObj,function(err,data){
+    if(err){
+      var error = {
+        status: "ERROR",
+        message: err
+      }
+      return res.json(error)
+    }
+
+    var jsonData = {
+      status: "OK",
+      person: data
+    }
+
+    //return res.json(jsonData);
+
+    return res.redirect('/directory');
+
+  })
+
+})
 
 router.get('/api/get', function(req,res){
 
@@ -95,6 +207,30 @@ router.get('/api/get', function(req,res){
 
 })
 
+router.get('/api/get/year/:itpYear',function(req,res){
+
+  var requestedITPYear = req.params.itpYear;
+
+  console.log(requestedITPYear);
+
+  Person.find({itpYear:requestedITPYear},function(err,data){
+      if(err){
+        var error = {
+          status: "ERROR",
+          message: err
+        }
+        return res.json(err)
+      }
+
+      var jsonData = {
+        status: "OK",
+        people: data
+      }
+
+      return res.json(jsonData);    
+  })
+
+})
 
 
 
