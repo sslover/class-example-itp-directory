@@ -358,6 +358,37 @@ router.get('/api/get/year/:itpYear',function(req,res){
 
 })
 
+// year, name
+// /api/get/query?year=2016&name=Sam&hasGlasses=true
+
+router.get('/api/get/query',function(req,res){
+
+  console.log(req.query);
+
+  var searchQuery = {};
+
+  if(req.query.itpYear){
+    searchQuery['itpYear'] =  req.query.itpYear
+  }
+
+  if(req.query.name){
+    searchQuery['name'] =  req.query.name
+  }
+
+  if(req.query.hasGlasses){
+    searchQuery['hasGlasses'] =  req.query.hasGlasses
+  }  
+
+  Person.find(searchQuery,function(err,data){
+    res.json(data);
+  })
+
+  // Person.find(searchQuery).sort('-name').exec(function(err,data){
+  //   res.json(data);
+  // })  
+
+
+})
 
 
 
