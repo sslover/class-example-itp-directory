@@ -358,23 +358,29 @@ router.get('/api/get/year/:itpYear',function(req,res){
 
 })
 
-// year, name
-// /api/get/query?year=2016&name=Sam&hasGlasses=true
-
+// example query --> /api/get/query?itpYear=2016&name=Sam
+// --> itpYear=2016
+// --> name=Sam
 router.get('/api/get/query',function(req,res){
 
   console.log(req.query);
 
+  // start with an empty searchQuery object
   var searchQuery = {};
 
+  // if itpYear is in the query, add it to the searchQuery object
   if(req.query.itpYear){
     searchQuery['itpYear'] =  req.query.itpYear
-  }
+  } 
+  // in the above example, searchQuery is now --> { itpYear: 2016 }
 
+  // if name is in the query, add it to the searchQuery object
   if(req.query.name){
     searchQuery['name'] =  req.query.name
   }
+  // in the above example, searchQuery is now { itpYear: 2016, name: Sam}
 
+  // if hasGlasses is in the query, add it to the example
   if(req.query.hasGlasses){
     searchQuery['hasGlasses'] =  req.query.hasGlasses
   }  
@@ -386,7 +392,6 @@ router.get('/api/get/query',function(req,res){
   // Person.find(searchQuery).sort('-name').exec(function(err,data){
   //   res.json(data);
   // })  
-
 
 })
 
